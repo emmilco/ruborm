@@ -4,9 +4,6 @@ describe 'Associatable' do
   before(:each) { DBConnection.reset }
   after(:each) { DBConnection.reset }
 
-
-describe 'Associatable' do
-
   before(:all) do
     class Cat < SQLObject
       belongs_to :human, foreign_key: :owner_id
@@ -163,7 +160,6 @@ describe 'Associatable' do
     end
 
     it 'fetches associated `toys   for a `Cat`' do
-      debugger
       toys = cat.toys
       expect(toys).to be_instance_of(Array)
       expect(toys.length).to be > (1)
