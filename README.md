@@ -98,4 +98,28 @@ end
 
 If you want to use Ruborm with your own database, you should start by customizing `lib/db_connection.rb` to point to your SQLite database files. The default is to point up to the cat database included in the repo and referenced in the tests.  
 
-To experiment, simply fire up PRY or the Ruby REPL of your choice, `load 'ruborn.rb'`, and start defining your database model classes.
+To experiment, simply fire up PRY or the Ruby REPL of your choice, `load 'ruborn.rb'`, and start defining your database model classes.  The following code will get you up and running with the sample database:
+
+``` ruby
+load 'lib/ruborm'
+
+class Cat < SQLObject
+  belongs_to :human, foreign_key: :owner_id
+  has_many :toys
+  finalize!
+end
+
+class Human < SQLObject
+  self.table_name = 'humans' ## Ruborm has trouble pluralizing 'human'
+  has_many :cats, foreign_key: :owner_id
+  belongs_to :house
+  has_many :toys, through: :cats, source: :toys
+  finalize!
+end
+
+class Toy < SQLObject
+  belongs_to :cat
+  finalize!
+end
+
+```
