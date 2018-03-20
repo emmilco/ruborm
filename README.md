@@ -113,7 +113,7 @@ class Human < SQLObject
   self.table_name = 'humans' ## Ruborm has trouble pluralizing 'human'
   has_many :cats, foreign_key: :owner_id
   belongs_to :house
-  has_many :toys, through: :cats, source: :toys
+  has_many_through :toys, :cats, :toys
   finalize!
 end
 
