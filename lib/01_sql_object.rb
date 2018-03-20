@@ -54,6 +54,33 @@ class SQLObject
     data.empty? ? nil : self.new(data[0])
   end
 
+  def self.count
+    data = DBConnection.execute(<<-SQL)
+      SELECT COUNT(*)
+      FROM "#{self.table_name}"
+    SQL
+    data.first.values.first
+  end
+
+  def self.first
+    data = DBConnection.execute(<<-SQL)
+      SELECT *
+      FROM "#{self.table_name}"
+      LIMIT 1
+    SQL
+    self.parse_all(data).first
+  end
+
+  def self.last
+    data = DBConnection.execute(<<-SQL)
+      SELECT *
+      FROM "#{self.table_name}"
+      ORDER BY id DESC
+      LIMIT 1
+    SQL
+    self.parse_all(data).first
+  end
+  
   def initialize(params = {})
     params.each do |col, val|
       raise "unknown attribute '#{col}'" unless self.class.columns.include?(col.to_sym)

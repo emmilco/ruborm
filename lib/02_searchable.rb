@@ -11,6 +11,16 @@ module Searchable
     SQL
     self.parse_all(data)
   end
+
+  def where_not(params)
+    where_line = params.keys.map { |key| "NOT #{key} = ?" }.join(" AND ")
+    data = DBConnection.execute(<<-SQL, *params.values)
+      SELECT *
+      FROM #{self.table_name}
+      WHERE #{where_line}
+    SQL
+    self.parse_all(data)
+  end
 end
 
 class SQLObject

@@ -35,17 +35,21 @@ Ruborm comes with several built-in methods to help make the normal tasks of data
 ### `::find`
 `::find(id)` returns the record in the current table where `id`, an integer, matches the `primary_key`.
 
-### `::where`
-`::where(params_hash)` takes a series of key-value pairs, mapping the keys (symbols) to equivalent column names, and inserting the values as parameters within the SQL query.  For example:
+### `::where` and `::where_not`
+`::where(params_hash)` and `::where_not` take a series of one or more key-value pairs, mapping the keys (symbols) to equivalent column names, and inserting the values as parameters within the SQL query.  For example:
 
 ```ruby
-User.where(city: "Chicago")
+User.where_not(city: "Chicago", last_name: "Jones")
 ```
 is equivalent to:
 ``` SQL
 SELECT * FROM users
-WHERE city = 'Chicago'
+WHERE NOT city = 'Chicago' AND NOT last_name = 'Jones'
 ```
+
+### `::first` and `::last`
+
+Ruborm also offers the convenience methods `::first` and `::last`, which return the first and last records in the associated table, by their `id` column.
 
 ## Associations
 Association generators in Ruborm are analogous to their equivalents in ActiveRecord, with some minor exceptions.  
@@ -82,9 +86,10 @@ Both association generators take ordered parameters, which should be symbols, re
 - the name of the association in the current model that is being exploited to achieve the through association (`:through_name`),
 - the name of the association in the intermediate model, which targets the endpoint of the association (`:source_name`).
 
-```
-has_many_through(name, through_name, source_name)
-has_one_through(name, through_name, source_name)
+``` ruby
+class Employee < SQLObject
+  has_many_through(:sales, :customers, :purchases)
+end
 ```
 
 ## Trying Out Ruborm
