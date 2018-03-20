@@ -1,8 +1,11 @@
-require '04_associatable2'
+require '04_associatable'
 
 describe 'Associatable' do
   before(:each) { DBConnection.reset }
   after(:each) { DBConnection.reset }
+
+
+describe 'Associatable' do
 
   before(:all) do
     class Cat < SQLObject
@@ -31,6 +34,66 @@ describe 'Associatable' do
       belongs_to :cat
 
       finalize!
+    end
+  end
+
+  describe '#belongs_to' do
+    let(:breakfast) { Cat.find(1) }
+    let(:devon) { Human.find(1) }
+
+    it 'fetches `human` from `Cat` correctly' do
+      expect(breakfast).to respond_to(:human)
+      human = breakfast.human
+
+      expect(human).to be_instance_of(Human)
+      expect(human.fname).to eq('Devon')
+    end
+
+    it 'fetches `house` from `Human` correctly' do
+      expect(devon).to respond_to(:house)
+      house = devon.house
+
+      expect(house).to be_instance_of(House)
+      expect(house.address).to eq('26th and Guerrero')
+    end
+
+    it 'returns nil if no associated object' do
+      stray_cat = Cat.find(5)
+      expect(stray_cat.human).to eq(nil)
+    end
+  end
+
+  describe '#has_many' do
+    let(:ned) { Human.find(3) }
+    let(:ned_house) { House.find(2) }
+
+    it 'fetches `cats` from `Human`' do
+      expect(ned).to respond_to(:cats)
+      cats = ned.cats
+
+      expect(cats.length).to eq(2)
+
+      expected_cat_names = %w(Haskell Markov)
+      2.times do |i|
+        cat = cats[i]
+
+        expect(cat).to be_instance_of(Cat)
+        expect(cat.name).to eq(expected_cat_names[i])
+      end
+    end
+
+    it 'fetches `humans` from `House`' do
+      expect(ned_house).to respond_to(:humans)
+      humans = ned_house.humans
+
+      expect(humans.length).to eq(1)
+      expect(humans[0]).to be_instance_of(Human)
+      expect(humans[0].fname).to eq('Ned')
+    end
+
+    it 'returns an empty array if no associated items' do
+      catless_human = Human.find(4)
+      expect(catless_human.cats).to eq([])
     end
   end
 
