@@ -33,10 +33,19 @@ Ruborm comes with several built-in methods to help make the normal tasks of data
 `::all` is equivalent to `SELECT * from [table_name]`.  It returns an array of model instances, each encoded with column names and values as instance variables.
 
 ### `::find`
-- `::find(id)` returns the record in the current table where `id` matches the `primary_key`.
+`::find(id)` returns the record in the current table where `id`, an integer, matches the `primary_key`.
 
 ### `::where`
-- `::where(params_hash)`
+`::where(params_hash)` takes a series of key-value pairs, mapping the keys (symbols) to equivalent column names, and inserting the values as parameters within the SQL query.  For example:
+
+```ruby
+User.where(city: "Chicago")
+```
+is equivalent to:
+``` SQL
+SELECT * FROM users
+WHERE city = 'Chicago'
+```
 
 ## Associations
 Association generators in Ruborm are analogous to their equivalents in ActiveRecord, with some minor exceptions.  
@@ -58,6 +67,9 @@ class Citizen < SQLObject
   # additional parameters are unnecessary,
   # when table and column names follow convention
   belongs_to :town
+
+  finalize!
+end
 
 ```
 
