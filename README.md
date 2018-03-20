@@ -28,14 +28,16 @@ Note, model classes and database tables must be named according to the following
 
 Ruborm comes with several built-in methods to help make the normal tasks of database manipulation easy.
 
-### `::all`
+### `all` and `count`
 
 `::all` is equivalent to `SELECT * from [table_name]`.  It returns an array of model instances, each encoded with column names and values as instance variables.
 
-### `::find`
+`::count` is equivalent to `SELECT COUNT(*) from [table_name]` and returns the total number of records in the associated table.
+
+### `find`
 `::find(id)` returns the record in the current table where `id`, an integer, matches the `primary_key`.
 
-### `::where` and `::where_not`
+### `where` and `where_not`
 `::where(params_hash)` and `::where_not` take a series of one or more key-value pairs, mapping the keys (symbols) to equivalent column names, and inserting the values as parameters within the SQL query.  For example:
 
 ```ruby
@@ -47,7 +49,7 @@ SELECT * FROM users
 WHERE NOT city = 'Chicago' AND NOT last_name = 'Jones'
 ```
 
-### `::first` and `::last`
+### `first` and `last`
 
 Ruborm also offers the convenience methods `::first` and `::last`, which return the first and last records in the associated table, by their `id` column.
 
