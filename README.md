@@ -101,7 +101,7 @@ If you want to use Ruborm with your own database, you should start by customizin
 To experiment, simply fire up PRY or the Ruby REPL of your choice, `load 'ruborn.rb'`, and start defining your database model classes.  The following code will get you up and running with the sample database:
 
 ``` ruby
-load 'lib/ruborm'
+load 'lib/ruborm.rb'
 
 class Cat < SQLObject
   belongs_to :human, foreign_key: :owner_id

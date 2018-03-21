@@ -153,14 +153,14 @@ describe 'Associatable' do
       end
     end
 
-    let(:cat) { Cat.find(1) }
+    let(:human) { Human.find(1) }
 
     it 'adds getter method' do
-      expect(cat).to respond_to(:toys)
+      expect(human).to respond_to(:toys)
     end
 
-    it 'fetches associated `toys   for a `Cat`' do
-      toys = cat.toys
+    it 'fetches associated `toys for a `Human`' do
+      toys = human.toys
       expect(toys).to be_instance_of(Array)
       expect(toys.length).to be > (1)
       expect(toys.first.name).to eq("Yarn")

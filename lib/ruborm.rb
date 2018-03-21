@@ -1,1 +1,1 @@
-require_relative '04_associatable.rb'
+require_relative '04_associatable'
