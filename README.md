@@ -129,11 +129,11 @@ end
 Once you've defined the associations and model classes, you're ready to start pulling data from your database!  Try out a few of  the following commands to see Ruborm in action:
 
 ``` ruby
-Cat.all
-Human.first
-Cat.last.toys
-Human.first.toys
-Human.find(2)
-Cat.where(name: "Breakfast")
-Human.last.toys.count
+Cat.all # returns all the cat records in an array
+Human.first # returns the first human record
+Cat.last.toys # fetches the toy records associated with the last cat record
+Human.first.toys # uses a through association to fetch all the toys of the first human's cats
+Human.find(2) # fetches Human with id 2
+Cat.where(name: "Breakfast") # returns all cat records where the name colum n matches "Breakfast"
+Human.last.toys.count # gets the count (using SQL) of all the toys using a through association
 ```
