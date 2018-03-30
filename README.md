@@ -96,9 +96,11 @@ end
 
 ## Trying Out Ruborm
 
-If you want to use Ruborm with your own database, you should start by customizing `lib/db_connection.rb` to point to your SQLite database files. The default is to point to the cat database included in the repo and referenced in the tests.  
+Setting up and using Ruborm is easy.  Here's how to get started.
 
-To experiment, simply fire up PRY or the Ruby REPL of your choice, `load 'ruborn.rb'`, and start defining your database model classes.  The following code will get you up and running with the sample database:
+First, clone the repo to your local machine.  If you want to use Ruborm with your own database, you should start by customizing `lib/db_connection.rb` to point to your SQLite database files. The default is to point to the cat database included in the repo and referenced in the tests.  
+
+To experiment, simply fire up PRY or the Ruby REPL of your choice from inside the repo, `load 'lib/ruborn.rb'`, and start defining your database model classes.  The following code will get you up and running with the sample database:
 
 ``` ruby
 load 'lib/ruborm.rb'
@@ -122,4 +124,16 @@ class Toy < SQLObject
   finalize!
 end
 
+```
+
+Once you've defined the associations and model classes, you're ready to start pulling data from your database!  Try out a few of  the following commands to see Ruborm in action:
+
+``` ruby
+Cat.all
+Human.first
+Cat.last.toys
+Human.first.toys
+Human.find(2)
+Cat.where(name: "Breakfast")
+Human.last.toys.count
 ```
