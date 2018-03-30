@@ -135,5 +135,4 @@ Cat.last.toys # fetches the toy records associated with the last cat record
 Human.first.toys # uses a through association to fetch all the toys of the first human's cats
 Human.find(2) # fetches Human with id 2
 Cat.where(name: "Breakfast") # returns all cat records where the name column matches "Breakfast"
-Human.last.toys.count # gets the count (using SQL) of all the toys using a through association
 ```
